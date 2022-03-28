@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nigeria Covid 19 Status</title>
+    <link rel="stylesheet" href="/css/design1.css">
+    <link rel="stylesheet" href="/css/leaflet.css" />
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css" />
+
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+    <script src="/data/leaflet.js"></script>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+
+<!--<script src="/data/NigeriaStateData.js"></script>-->
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav">
+            <ul>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="logo-hackernews"></ion-icon>
+                          </span>
+                        <span class="title">Yusufff WebGIS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ElectionG.html">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Election</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Route Project.html">
+                        <span class="icon">
+                            <ion-icon name="analytics-outline"></ion-icon>
+                        </span>
+                        <span class="title">Routing</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Covid.html">
+                        <span class="icon">
+                            <ion-icon name="bug-outline"></ion-icon>
+                        </span>
+                        <span class="title">Covid 19</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="help-outline"></ion-icon>
+                        </span>
+                        <span class="title">Help</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <span class="title">Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--main-->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <!--search-->
+                <div class="search dataTables_filter" id="jsoncontent_filter">
+                    <label>
+                        <input type="search" aria-controls="jsoncontent" placeholder="     Search here" id="myInput" onkeyup="myFunction()">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+                <div class="user">
+                    <img src="/img/2.jpg" alt="">
+
+                </div>
+            </div>
+            <!--card-->
+            <div class="cardBox">
+                <h2>Covid 19 Dashboard</h2>
+                <p>
+                <h2 id="datainfo">Nigeria</h2>
+                </p>
+                <div class="card"id="card1">
+                    <div>
+                        <div class="numbers" id="cardnumb1"></div>
+                        <div class="cardName" id="cardtext1"></div>
+                        <div class="cardPercent" id="percent1"></div>
+                    </div>
+                    <div class="icon8x">
+                      <ion-icon name="people-circle-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card"id="card2">
+                    <div>
+                        <div class="numbers" id="cardnumb2"></div>
+                        <div class="cardName" id="cardtext2"></div>
+                        <div class="cardPercent" id="percent2"></div>
+                    </div>
+                    <div class="icon8x">
+                        <ion-icon name="bed-outline"></ion-icon>
+                        
+                    </div>
+                </div>
+                <div class="card"id="card3">
+                    <div>
+                        <div class="numbers" id="cardnumb3"></div>
+                        <div class="cardName" id="cardtext3"></div>
+                        <div class="cardPercent" id="percent3"></div>
+                    </div>
+                    <div class="icon8x">
+                        <ion-icon name="accessibility-outline"></ion-icon>
+                    </div>
+                </div>
+                <div class="card"id="card4">
+                    <div>
+                        <div class="numbers" id="cardnumb4"></div>
+                        <div class="cardName" id="cardtext4"></div>
+                        <div class="cardPercent" id="percent4"></div>
+                    </div>
+                    <div class="icon8x">
+                        <ion-icon name="pulse-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+
+            <!--detail list -->
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Nigeria Covid-19 Map</h2>
+                        <!--   <a href="" class="btn">View All</a>-->
+                    </div>
+                    <div id="map"></div>
+                </div>
+                <!--New Customers-->
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Table</h2>
+                        <a href="" class="btn">View All</a>
+                    </div>
+                    <table id="jsoncontent" class="display" width="100%">
+                          <thead>
+                            <tr>
+                                <td>State</td>
+                                <td>Comfirmed</td>
+                                <td>Discharged</td>
+                                
+                                <td>Deaths</td>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="graphBox">
+                <!--  <h2 class="text"></h2>-->
+                <div class="box">
+                    <canvas id="barChartCanvas"></canvas>
+                </div>
+                <div class="box">
+                    <canvas id="ScatterCanvas"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //loading data from geojson to table
+        $(document).ready(function() {
+          $('#jsoncontent').DataTable( {
+            "ajax":{
+              "url":"/map data/Nigeria geojson5.geojson",
+              "dataSrc": "features"
+            },
+            "columns": [
+              { data: "properties.NigeriaCases_States" },
+              { data: "properties.NigeriaCases_Confirmed" },
+              { data: "properties.NigeriaCases_Discharged" },
+              { data: "properties.NigeriaCases_Deaths" }
+          
+            ]
+          });
+        }); 
+        const windowsOnload = window.onload = () => {
+           // loadtabledata();
+            chartting();
+        };
+        //filter and search table function
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        //-----------------------Chart and leaflet jS-----------------------------//
+        var scatterData = [];
+        var scatterLabels = [];
+        var color = Chart.helpers.color;
+
+        //bar chart that updates when the map is interacted with
+        var newChart = function (labels, data) {
+            var dataLength = labels ? labels.length : 0;
+            //will select colors to use based on the number of data points
+            var backgroundColors = ['rgba(255,255,153, 0.9)', //confirmed
+                'rgba(127,201,127, 0.9)',  //discharged
+                'rgba(228,26,28, 0.9)'	//death
+            ];
+            var colors = [];
+            for (var i = 0; i < dataLength; i++) {
+                colors.push(backgroundColors[i]);
+            };
+            //'newChart colors', colors
+            var ctx = document.getElementById("barChartCanvas");
+            var barChartCanvas = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Info',
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        };// var newChart = function(labels, data) {
+
+        //scatter plot chart
+        var scatterChartData = {
+            labels: scatterLabels,
+            datasets: [{
+                label: 'Confirmed Cases (X-axis) vs. Discharged (Y-axis)',
+                data: scatterData,
+                //    backgroundColor: colors,
+                //  borderColor: colors,
+            }]
+        };
+
+
+        //will draw the scatter plot
+        function chartting() {
+
+            //intialize the bar chart with nothing
+            newChart([], []);
+
+            var ctxScatter = document.getElementById('ScatterCanvas').getContext('2d');
+            //scatterChartData
+
+            window.myScatter = Chart.Bar(ctxScatter, {
+                data: scatterChartData,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Scatterplot: Mouse Over Data Points to See Individual Values'
+                    },
+
+                    tooltips: {
+                        callbacks: {
+                            title: function (tooltipItem, data) {
+                                //will get the name of ths state
+                                return data['labels'][tooltipItem[0]['index']];
+                            },
+                            label: function (tooltipItem, data) {
+                                //will get the values 
+                                label_string = "Confirmed Cases: " + tooltipItem.xLabel + " Discharged: " + tooltipItem.yLabel;
+
+                                return label_string;
+                            }
+                        },//callbacks: {
+                        backgroundColor: '#FFF',
+                        titleFontSize: 14,
+                        titleFontColor: '#0066ff',
+                        bodyFontColor: '#000',
+                        bodyFontSize: 12,
+                        displayColors: true
+                    }//tooltips: {
+
+                }	//options: {
+
+            });
+
+            window.myScatter.update();
+        };
+
+        //create the leaflet.js map, centered on Nigeria
+        var map = L.map('map').setView( [9.570261505096768, 8.043332658975682],6);
+    
+        L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            maxZoom: 21,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        }).addTo(map);
+
+        var info = L.control();
+
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+
+            this.update();
+            return this._div;
+
+        };
+
+        info.update = function (props) {
+            if (props) {
+                var labels = ['Confirmed Cases', 'Discharged', 'Deaths'];
+                var data = [props.NigeriaCases_Confirmed, props.NigeriaCases_Discharged, props.NigeriaCases_Deaths];
+
+                //will add a floating DIV tage over the map
+                var overview = '<h4>Data for: ' + props.NAME_1 + ' State</h4>' + "<br/>";
+                overview += 'Confirmed Cases: ' + props.NigeriaCases_Confirmed + "<br/>";
+                overview += 'Discharged: ' + props.NigeriaCases_Discharged + "<br/>";
+                overview += 'Deaths: ' + props.NigeriaCases_Deaths + "<br/>";
+                this._div.innerHTML = overview;
+                //send this data to the bar chart
+                newChart(labels, data);
+                //   
+                //  change text for box at the top
+                document.getElementById('datainfo').innerHTML = props.NAME_1 + ' State</h4>';
+                document.getElementById('cardnumb1').innerHTML = props.NigeriaCases_Confirmed;
+                document.getElementById('cardtext1').innerHTML = 'Confirmed Cases ';
+                document.getElementById('cardnumb2').innerHTML = props.NigeriaCases_Admitted;
+                document.getElementById('cardtext2').innerHTML = 'Admitted Cases ';
+                document.getElementById('cardnumb3').innerHTML = props.NigeriaCases_Discharged;
+                document.getElementById('cardtext3').innerHTML = 'Discharged Cases ';
+                document.getElementById('cardnumb4').innerHTML = props.NigeriaCases_Deaths;
+                document.getElementById('cardtext4').innerHTML = 'Deaths ';
+
+                document.getElementById('card1').style.display="flex"//display card
+                document.getElementById('card2').style.display="flex"//display card
+                document.getElementById('card3').style.display="flex"//display card
+                document.getElementById('card4').style.display="flex"//display card
+               
+            }
+        };
+        info.addTo(map);
+
+        //sets the color ramp for the map shape
+        //5 class natural using colorbrewer colors
+        function getColor(b) {
+
+            return b >= 0.0 & b <= 1099 ? '#ffffcc' :
+                b >= 1100 & b <= 3999 ? '#c7e9b4' :
+                    b >= 4000 & b <= 7999 ? '#7fcdbb' :
+                        b >= 8000 & b <= 10999 ? '#41b6c4' :
+                            b >= 11000 & b <= 14999 ? '#2c7fb8' :
+                                b >= 15000 ? '#253494' :
+                                    'grey';
+        }
+        function style_1(feature) {
+            return {
+                weight: 1,
+                opacity: 1,
+                color: 'white',
+            };
+        }
+
+        //sets the intial look of the map using the confirmed cases
+        function style(feature) {
+            return {
+                weight: 0.6,
+                opacity: 0.4,
+                color: 'white',
+                fillOpacity: 0.8,
+                fillColor: getColor(feature.properties.NigeriaCases_Confirmed)
+            };
+        }
+
+        function highlightFeature(e) {
+            //highlightFeature was entered;
+            var layer = e.target;
+            layer.setStyle({
+                weight: 1.5,
+                color: 'black',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+
+            //data contained in the map feature will be sent to update the bar chart
+            info.update(layer.feature.properties);
+        }
+
+        var geojson;
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            //comment the line below if you don't want the data to reset when the mouse moves away
+            info.update();
+        }
+
+        function onEachFeature(feature, layer) {
+            //get all the data for adding to the scatter plot
+            if (feature.properties) {
+
+                //no null values
+                if (feature.properties.NigeriaCases_Confirmed != null) {
+                    scatterData.push({x: feature.properties.NigeriaCases_Confirmed, y: feature.properties.NigeriaCases_Discharged});
+
+                    //get the statename for labeling in the scatterplot
+                    scatterLabels.push(feature.properties.NAME_1);
+
+                } else {
+                    console.log("null");
+                }
+                //force the scatter plot to draw when the page loads
+                window.myScatter.update();
+
+            }
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+        // ... our listeners
+        //   geojson = L.geoJson(PolygonJSON);
+        // defined zoomed to layer
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+        //this is where the GeoJSON created in QGIS is loaded into the map
+        $.getJSON("/map data/Nigeria geojson5.geojson", function (data) {
+            //geojson retrieved
+            geojson = L.geoJson(data, {
+                style: style,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+        });
+
+        map.attributionControl.addAttribution('COVID-19 Data Nigeria &copy; <a href="https://ncdc.gov.ng//">Nigeria Centre for Disease Control</a>');
+
+        var legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [0, 1100, 4000, 8000, 11000, 15000,80000],
+                labels = ['<strong>Confirmed Cases</strong>'],
+                from, to;
+            var x = 1;
+            var y = 1;
+            for (var i = 0; i < grades.length - 1; i++) {
+                from = grades[i];
+                to = grades[i + 1];
+                y++;
+                //"x" + from + " " + to
+                /*labels.push(
+                    '<i style="background:' + getColor(x,x+1) + '"></i> ' + from + (' to ' + to)
+                    );*/
+                labels.push(
+                    '<i style="background:' + getColor(from) + '"></i> ' + from + (' to ' + to)
+                );
+            }
+
+            div.innerHTML = labels.join('<br>');
+            return div;
+        };
+        legend.addTo(map);
+
+    </script>
+
+    <script>
+        //toggle menu
+        let toggle = document.querySelector('.toggle');
+        let nav = document.querySelector('.nav');
+        let main = document.querySelector('.main');
+
+        toggle.onclick = function () {
+            nav.classList.toggle('active')
+            main.classList.toggle('active')
+        }
+
+        //hover class in selected list items
+        let list = document.querySelectorAll('.nav li');
+        function activeLink() {
+            list.forEach((item) =>
+                item.classList.remove('hovered'));
+            this.classList.add('hovered');
+        }
+        list.forEach((item) =>
+            item.addEventListener('mouseover', activeLink));
+    </script>
+
+</body>
+
+</html>

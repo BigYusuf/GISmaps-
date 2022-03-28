@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>COVID-19 Map Dashboard with Leaflet.js and Chart.js</title>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    	<script type="text/javascript" src="http://www.chartjs.org/assets/Chart.js"> </script>
+		<script type="text/javascript" src="https://www.chartjs.org/samples/latest/utils.js"> </script>
+<script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+
+
+	<style>
+
+		#top {
+			width: 100%;
+			height: 40px;
+			float:top;
+		}
+
+		#map {
+			width: 50%;
+			height: 550px;
+			float:left;
+		}
+
+		#chartDiv {
+			width: 50%;
+			height: 500px;
+			float:left;
+		}
+
+
+		p,ol {
+			font: 12px/14px Arial, Helvetica, sans-serif;	
+			
+		}
+
+		.info {
+			padding: 16px 10px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: 'white';
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+
+
+	</style>
+</head>
+<body>
+	<!--<div id="top">
+		<p align="center"><b>COVID-19 Dashboard with <a href="https://leafletjs.com/" target="new">Leaflet.js</a> and <a href="https://www.chartjs.org/" target="new">Chart.js</a>     <br/>
+		<a href="dashboard_info.html" target="new">Project Details</a></b><br/> <b><a href="https://uem.edu.in/uem-kolkata/"> UEM, Kolkata </a></b></p>
+	</div>-->
+	<div id="map"></div>
+	<div id="chartDiv">
+		<canvas id="barChartCanvas" height="130"></canvas>
+		<canvas id="ScatterCanvas" height="130"></canvas>
+	</div>
+	
+	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+	<script type="text/javascript">
+    
+	var scatterData = [];
+	var scatterLabels = [];
+	var color = Chart.helpers.color;
+	
+	//bar chart that updates when the map is interacted with
+    var newChart = function(labels, data) {
+        var dataLength = labels ? labels.length : 0;
+        //will select colors to use based on the number of data points
+		var backgroundColors = ['rgba(255,255,153, 0.9)', //confirmed
+                                'rgba(127,201,127, 0.9)',  //discharged
+                                'rgba(228,26,28, 0.9)'	//death
+                               ];
+        var colors = [];
+        for (var i = 0; i < dataLength; i++) {
+            colors.push(backgroundColors[i]);
+        };
+        //'newChart colors', colors
+        var ctx = document.getElementById("barChartCanvas");
+        var barChartCanvas = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Info',
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+    };// var newChart = function(labels, data) {
+
+
+	//scatter plot chart
+	var scatterChartData = {
+			labels: scatterLabels,
+			datasets: [{
+				label: 'Confirmed Cases (X-axis) vs. Discharged (Y-axis)',
+				data: scatterData
+			}]
+		};
+	
+	//will draw the scatter plot
+	window.onload = function() {
+	
+		//intialize the bar chart with nothing
+		newChart([], []);
+
+		var ctxScatter = document.getElementById('ScatterCanvas').getContext('2d');
+		//scatterChartData
+		
+		window.myScatter = Chart.Scatter(ctxScatter, {
+			data: scatterChartData,
+			options: {
+				title: {
+					display: true,
+					text: 'Scatterplot: Mouse Over Data Points to See Individual Values'
+					},
+				
+				 tooltips: {
+				  callbacks: {
+					title: function(tooltipItem, data) {
+						//will get the name of ths state
+						return data['labels'][tooltipItem[0]['index']];
+					},
+					label: function(tooltipItem, data) {
+						//will get the values 
+						label_string = "Confirmed Cases: " + tooltipItem.xLabel + " Discharged: " + tooltipItem.yLabel;
+						
+						return  label_string;
+					}
+				},//callbacks: {
+				  backgroundColor: '#FFF',
+				  titleFontSize: 14,
+				  titleFontColor: '#0066ff',
+				  bodyFontColor: '#000',
+				  bodyFontSize: 12,
+				  displayColors: true
+			}//tooltips: {
+				
+				
+		}	//options: {
+				
+	});//window.myScatter = Chart.Scatter(ctxScatter, {
+	
+	window.myScatter.update();
+		
+	};//window.onload = function() {
+
+
+		//create the leaflet.js map, centered on Nigeria
+        var map = L.map('map', {
+            zoomControl: true, maxZoom: 28, minZoom: 1
+        }).fitBounds([[6.58213214121, -4.23063744871], [16.6848032876, 13.6705868633]]);
+    
+        
+		 L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(map);
+
+		var info = L.control();
+
+		info.onAdd = function(map) {
+			this._div = L.DomUtil.create('div', 'info');
+			
+			this.update();
+			return this._div;
+			
+		};
+        
+		info.update = function(props) {
+            if (props) {
+				
+					var labels = ['Confirmed Cases', 'Discharged', 'Deaths'];
+                    var data = [props.NigeriaCases_Confirmed, props.NigeriaCases_Discharged, props.NigeriaCases_Deaths];
+					
+					//will add a floating DIV tage over the map
+					var overview = '<h4>Data for: ' + props.NAME_1 + ' State</h4>' + "<br/>";
+					overview += 'Confirmed Cases: ' + props.NigeriaCases_Confirmed + "<br/>";
+					overview += 'Discharged: ' + props.NigeriaCases_Discharged + "<br/>";
+					overview += 'Deaths: ' + props.NigeriaCases_Deaths + "<br/>";
+                    this._div.innerHTML = overview;
+                    //send this data to the bar chart
+					newChart(labels, data);
+					
+					
+					
+            }
+		};
+
+		info.addTo(map);
+		
+		
+		//sets the color ramp for the map shape
+		//5 class natural using colorbrewer colors
+		function getColor(b) {
+			
+			return b >= 0.0 & b <= 499 ? '#ffffcc' :
+                   b >= 500 & b <= 999 ? '#c7e9b4':
+                   b >= 1000 & b <= 2999 ? '#7fcdbb':
+                   b >= 3000 & b <= 5999 ? '#41b6c4':
+			       b >= 6000 & b <= 10999 ? '#2c7fb8' :
+			       b >= 11000 & b <= 17999 ? '#253494' :
+			    			'grey' ;
+		}
+
+		function style_1(feature){
+			return{
+				weight: 1,
+				opacity: 1,
+				color: 'white',
+			};
+		}
+
+		//sets the intial look of the map using the confirmed cases
+		function style(feature) {
+			return {
+				weight: 0.6,
+				opacity: 0.4,
+				color: 'white',
+				fillOpacity: 0.8,
+				fillColor: getColor(feature.properties.NigeriaCases_Confirmed)
+			};
+		}
+
+
+		function highlightFeature(e) {
+			//highlightFeature was entered;
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 1.5,
+				color: 'black',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+
+			//data contained in the map feature will be sent to update the bar chart
+			info.update(layer.feature.properties);
+		}
+
+		var geojson;
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			//comment the line below if you don't want the data to reset when the mouse moves away
+			info.update();
+		}
+
+		function onEachFeature(feature, layer) {
+			//get all the data for adding to the scatter plot
+			if (feature.properties) {
+
+				//no null values
+				if (feature.properties.NigeriaCases_Confirmed != null) {
+					scatterData.push  ({x: feature.properties.NigeriaCases_Confirmed, y:feature.properties.NigeriaCases_Discharged} );
+					
+					//get the statename for labeling in the scatterplot
+					scatterLabels.push(feature.properties.NAME_1);
+					
+				} else {
+					console.log("null");
+				}
+				
+				
+				//force the scatter plot to draw when the page loads
+				window.myScatter.update();
+					
+			}
+			
+			
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight
+			});
+		}
+
+		//this is where the GeoJSON created in QGIS is loaded into the map
+		$.getJSON ("./data/NigeriaStateData.geojson", function(data) {
+			//geojson retrieved
+			geojson = L.geoJson(data, {
+				style: style,
+				onEachFeature: onEachFeature
+			}).addTo(map);
+		});
+
+
+	
+		map.attributionControl.addAttribution('COVID-19 Data Nigeria &copy; <a href="https://www.mohfw.gov.in/">Ministry of Health and Family Welfare</a>');
+
+		var legend = L.control({position: 'bottomright'});
+
+		legend.onAdd = function (map) {
+
+			var div = L.DomUtil.create('div', 'info legend'),
+				grades = [0, 86, 400, 1084, 1893, 3651],
+				labels = ['<strong>Confirmed Cases</strong>'],
+				from, to;
+			var x=1;
+            var y=1;
+			for (var i = 0; i < grades.length - 1; i++) {
+				from = grades[i];
+				to = grades[i + 1];
+                y++;
+
+				//"x" + from + " " + to
+
+				/*labels.push(
+					'<i style="background:' + getColor(x,x+1) + '"></i> ' + from + (' to ' + to)
+                    );*/
+					
+					labels.push(
+					'<i style="background:' + getColor(from) + '"></i> ' + from  + (' to ' + to)
+                    );
+					
+			}
+
+			div.innerHTML = labels.join('<br>');
+			
+			return div;
+			
+			
+		};
+
+		legend.addTo(map);
+
+	</script>
+</body>
+</html>

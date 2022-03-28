@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route test</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css">
+   
+    <link rel="stylesheet" href="/css/design1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.5/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href=/css/leaflet.css>
+     <link rel="stylesheet" href="/css/routing.css">
+
+
+     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+     <script src="/data/leaflet.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.5/leaflet-routing-machine.js"></script>
+     <script src="/data/Control.Geocoder.js"></script>
+     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  </head>
+<body>
+    
+
+    <div style="height: 100vh;" 
+    id="mapid">
+        
+      </div>
+    </div>
+    <div class="kel">
+        <div class="jig">
+             <ion-icon name="arrow-dropright"></ion-icon>
+        </div>
+    </div>
+   
+
+
+    <script>
+//      fitBounds([[6.58213214121, -4.23063744871], [16.6848032876, 13.6705868633]]);
+
+        var mymap = L.map('mapid').setView([50.27264, 7.26469], 13);
+console.log(mymap);
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(mymap);
+var control = L.Routing.control({
+  waypoints: [
+   // L.latLng(6.605874, 3.349149),
+   // L.latLng(6.517912, 3.385983)
+  ],
+  router: new L.Routing.osrmv1({
+    language: 'en',
+    profile: 'car'
+  }),
+  geocoder: L.Control.Geocoder.nominatim({})
+}).addTo(mymap);
+
+    </script>
+    <script>
+      //toggle menu
+      let jig = document.querySelector('.jig');
+      let jug = document.querySelector('.jug');
+      let niv = document.querySelector('.leaflet-right');
+      let kel = document.querySelector('.kel');
+      let kel1 = document.querySelector('.kel1');
+      let niv1 = document.querySelector('.leaflet-routing-alternatives-container');
+
+      jig.onclick = function () {
+          niv.classList.toggle('active')
+          kel.classList.toggle('active')
+      }
+ //     jug.onclick = function () {
+   //       niv1.classList.toggle('active')
+     //     kel1.classList.toggle('active')
+      //}
+
+  </script>
+</body>
+</html>

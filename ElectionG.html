@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nigeria Election </title>
+    <link rel="stylesheet" href="/css/design2.css">
+    <link rel="stylesheet" href="/css/election.css">
+    <link rel="stylesheet" href="/css/leaflet.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css" />
+
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+    <script src="/data/leaflet.js"></script>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+
+<!--<script src="/data/NigeriaStateData.js"></script>-->
+</head>
+
+<body class="light"></body>
+    <div class="container">
+        <div class="nav">
+            <ul>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="logo-hackernews"></ion-icon>
+                             </span>
+                        <span class="title">Yusufff WebGIS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/ElectionG.html">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Election</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Route Project.html">
+                        <span class="icon">
+                            <ion-icon name="analytics-outline"></ion-icon>
+                        </span>
+                        <span class="title">Routing</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Covid.html">
+                        <span class="icon">
+                            <ion-icon name="bug-outline"></ion-icon>
+                        </span>
+                        <span class="title">Covid 19</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="help-outline"></ion-icon>
+                        </span>
+                        <span class="title">Help</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <span class="title">Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--main-->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <!--search-->
+                <div class="search dataTables_filter" id="jsoncontent_filter">
+                    <label>
+                        <input type="search" aria-controls="jsoncontent" placeholder="     Search here" id="myInput" onkeyup="myFunction()">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+
+                </div>
+                <div class="user">
+                    <img src="/img/2.jpg" alt="">
+                </div>
+                <div class="toggle1">
+                    <Span class="mode1">Mode</Span>
+                    <div class="dark-mode-switch">
+                        <div class="dark-mode-switch-ident"></div>
+                    </div>
+                </div>
+            <!--    <div class="menu2">
+                    <span class="icon"> 
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </span>
+                    <div>
+                        Settings
+                    </div>
+                </div>-->
+            </div>
+            <!--card-->
+            <div class="cardBox1">
+                <div class="alfa">
+                    <h2 class="datainfo"><span id="datainfo"></span> Governorship Election</h2>
+                   <!--  <p>
+                    <h2 class="datainfo" id="datainfo">Nigeria</h2>
+                    </p>-->
+                    <div class="f-group">
+                        <form name="form1" id="form1">
+                        <!--<span class="label">Constituency:</span>  --> 
+                        
+                        
+                        <!--    <span class="label">Location:</span> --> 
+                            <select name="location" id="location"onchange=" getselvalue()">
+                                <option>Select Location</option>
+                                <option value="wc" selected>Whole Country</option>
+                                <option>Lagos</option>
+                                <option>Plateau</option>
+                                
+                            </select>
+                            
+                        </form>
+                </div>
+            </div>
+                <div class="Maininfo">
+                    <div class="Infoboard">
+                        <div class="InfoText" id="InfoText">
+                    <p> Election in Nigeria is monitored and governed by the Independent National Electoral Commission. 
+                        Election in Nigeria is monitored and governed by the Independent National Electoral Commission. 
+                        Election in Nigeria is monitored and governed by the Independent National Electoral Commission. 
+                        (INEC).
+
+                    </p>
+                    </div>
+                    <table id="E_table">                   
+                        <tbody>
+                            <tr>
+                                <td>Nominee</td>
+                                <td><span id="Nominee">Nominee. </span></td>
+                            </tr>
+                            <tr>
+                                <td>Party</td>
+                                <td><span id="PartyX">Party. </span></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>Running Mate </td>
+                                <td><span id="RunningMate">Running mate </span></td>
+                            
+                            </tr>
+                            <tr>
+                                <td>Popular Votes</td>
+                                <td><span id="Votes">Votes. </span></td>
+                            </tr>
+                        
+                        
+                        </tbody>
+                    </table>
+                    <div class="party img1" id="party">
+                        <img id="Winnerimg"src="" alt="">
+                    </div>
+    
+                </div>
+                </div>
+            </div>
+            <div class="cardBox">
+                <div class="card"id="card1">
+                    <div>
+                        <div class="numbers" id="cardnumb1"></div>
+                        <div class="cardName" id="cardtext1"></div>
+                        <div class="cardName1" id="cardtxt1"></div>
+                        <div class="cardPercent" id="percent1"></div>
+                    </div>
+                    <div class="user-x img1">
+                        <img id="banner1"src="" alt="">
+                    </div>
+                </div>
+                <div class="card"id="card2">
+                    <div>
+                        <div class="numbers" id="cardnumb2"></div>
+                        <div class="cardName" id="cardtext2"></div>
+                        <div class="cardName1" id="cardtxt2"></div>
+                        <div class="cardPercent" id="percent2"></div>
+                    </div>
+                    <div class="user-x img2">
+                        <img id="banner2"src="" alt="">
+                    </div>
+                </div>
+                <div class="card"id="card3">
+                    <div>
+                        <div class="numbers" id="cardnumb3"></div>
+                        <div class="cardName" id="cardtext3"></div>
+                        <div class="cardName1" id="cardtxt3"></div>
+                        <div class="cardPercent" id="percent3"></div>
+                    </div>
+                   
+                    <div class="user-x img3">
+                        <img  id="banner3"src="" alt="">
+                    </div>
+                </div>
+                <div class="card"id="card4">
+                    <div>
+                        <div class="numbers" id="cardnumb4"></div>
+                        <div class="cardName" id="cardtext4"></div>
+                        <div class="cardName1" id="cardtxt4"></div>
+                        <div class="cardPercent" id="percent4"></div>
+                    </div>
+                   <!-- <div class="icon8x">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>-->
+                    <div class="user-x img4">
+                        <img id="banner4" src="" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <!--detail list -->
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="txtchange">Nigeria Map</h2>
+                        <!--   <a href="" class="btn">View All</a>-->
+                    </div>
+                    <div id="map"></div>
+                </div>
+                <!--New Customers-->
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Table</h2>
+                        <a href="" class="btn">View All</a>
+                    </div>
+                    <table id="jsoncontent" class="display" width="100%">
+                          <thead>
+                            <tr>
+                                <td>State</td>
+                                <td>APC</td>
+                                <td>PDP</td>
+                                <td>Party 3</td>
+                                <td>Party 4</td>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="graphBox">
+                <!--  <h2 class="text"></h2>-->
+                <div class="box">
+                    <canvas id="barChartCanvas"></canvas>
+                </div>
+                <div class="box">
+                    <canvas id="ScatterCanvas"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Dark mode toggle
+    document.querySelector('.dark-mode-switch').onclick = () => {
+        document.querySelector('body').classList.toggle('dark')
+      //  document.getElementById('mode1').innerHTML = 'Dark Mode';
+        document.querySelector('body').classList.toggle('light')
+        
+       // document.getElementById('mode1').innerHTML = 'Light Mode';
+    }
+   
+          function getselvalue(){
+       //    var selvalue1=document.getElementById('consti');
+         //  var displaytxt1=selvalue1.options[selvalue1.selectedIndex].text;
+           var selvalue2=document.getElementById('location');
+           var displaytxt2=selvalue2.options[selvalue2.selectedIndex].text;
+       //    document.getElementById("textval").value=displaytxt1;// for textbox or input
+           
+        //   document.getElementById('datainfo23').innerHTML = displaytxt2;// for label
+           if (displaytxt2=="Lagos"){
+           // document.getElementById('datainfo23').innerHTML = displaytxt1;// for label
+          
+            window.location.href = "/Lagos.html";
+           }
+           else if (displaytxt2=="Whole Country"){
+         //   document.getElementById('datainfo23').innerHTML = displaytxt1;// for label
+        
+         window.location.href = "/ElectionG.html"; 
+           }
+          }
+          // changing backgroundcolor
+          var backGcolor= {"Gray":"gray","Lime":"lime","Red":"red"}
+          function getBackGround(){
+              var bgcolor=document.getElementsByName("colors");
+              for(var i = 0; i< bgcolor.length; i++){
+                  bgcolor[i].onclick=function(){
+                      document.body.style.backgroundColor=backGcolor[this.value];
+                  }
+              }
+          }
+      
+    </script>
+    <script>
+        
+        function mainfunction() {
+         ///   myTable();
+           // getselvalue();
+         //   mapstyle();
+        }
+    //    function myTable() {
+        
+        //loading data from geojson to table
+    
+            $(document).ready(function() {
+                $('#jsoncontent').DataTable( {
+                    "ajax":{
+                    "url":"/map data/Nigeria geojson5.geojson",
+                    "dataSrc": "features"
+                    },
+                    "columns": [
+                    { data: "properties.NigeriaCases_States" },
+                    { data: "properties.data_Party1_APC" },
+                    { data: "properties.data_Party2_PDP" },
+                    { data: "properties.data_Party3_SC" },
+                    { data: "properties.data_Party4_SC" }
+                
+                    ]
+                });
+            }); 
+        
+      //  }
+        
+        const windowsOnload = window.onload = () => {
+           // loadtabledata();
+            chartting();
+        };
+        //filter and search table function
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        //-----------------------Chart and leaflet jS-----------------------------//
+        var scatterData = [];
+        var scatterLabels = [];
+        var color = Chart.helpers.color;
+
+        //bar chart that updates when the map is interacted with
+        var newChart = function (labels, data) {
+            var dataLength = labels ? labels.length : 0;
+            //will select colors to use based on the number of data points
+            var backgroundColors = ['rgba(255,255,153, 0.9)', //confirmed
+                'rgba(127,201,127, 0.9)',  //PDP
+                'rgba(228,26,28, 0.9)'	//PDP
+            ];
+            var colors = [];
+            for (var i = 0; i < dataLength; i++) {
+                colors.push(backgroundColors[i]);
+            };
+            //'newChart colors', colors
+            var ctx = document.getElementById("barChartCanvas");
+            var barChartCanvas = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Info',
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    
+                           responsive: true,
+                    //scales: {
+                      //  yAxes: [{
+                        //    ticks: {
+                          //      beginAtZero: true
+                                
+                      //      }
+                    //    }]
+                  //  }
+                }
+            });
+        };// var newChart = function(labels, data) {
+
+        //scatter plot chart
+        var scatterChartData = {
+            labels: scatterLabels,
+            datasets: [{
+                label: 'APC (X-axis) vs. PDP (Y-axis)',
+                data: scatterData,
+                //    backgroundColor: colors,
+                //  borderColor: colors,
+            }]
+        };
+
+        //will draw the scatter plot
+        function chartting() {
+
+            //intialize the bar chart with nothing
+            newChart([], []);
+
+            var ctxScatter = document.getElementById('ScatterCanvas').getContext('2d');
+            //scatterChartData
+            window.myScatter = Chart.Bar(ctxScatter, {
+                data: scatterChartData,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Scatterplot: Mouse Over Data Points to See Individual Values'
+                    },
+
+                    tooltips: {
+                        callbacks: {
+                            title: function (tooltipItem, data) {
+                                //will get the name of ths state
+                                return data['labels'][tooltipItem[0]['index']];
+                            },
+                            label: function (tooltipItem, data) {
+                                //will get the values 
+                                label_string = "APC: " + tooltipItem.xLabel + " PDP: " + tooltipItem.yLabel;
+
+                                return label_string;
+                            }
+                        },//callbacks: {
+                        backgroundColor: '#FFF',
+                        titleFontSize: 14,
+                        titleFontColor: '#0066ff',
+                        bodyFontColor: '#000',
+                        bodyFontSize: 12,
+                        displayColors: true
+                    }//tooltips: {
+
+                }	//options: {
+
+            });
+
+            window.myScatter.update();
+        };
+
+        //create the leaflet.js map, centered on Nigeria
+        
+       var map = L.map('map').setView( [9.570261505096768, 8.043332658975682],6);
+    
+       var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
+        subdomains: 'abcd',
+        maxZoom: 19
+    });
+      CartoDB_DarkMatter.addTo(map);
+
+      
+        var info = L.control();
+
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+
+            this.update();
+            return this._div;
+
+        };
+       info.update = function (props) {
+            if (props) {
+                var labels = ['APC', 'PDP', props.data_Party3_Name, props.data_Party4_Name];
+                var data = [props.perE_per1, props.perE_per2, props.perE_per3, props.perE_per4];
+
+                //will add a floating DIV tage over the map
+                var overview = '<h4>Data for: ' + props.NAME_1 + ' State</h4>' + "<br/>";
+                overview += 'APC: ' + props.data_Party1_APC + "<br/>";
+                overview += 'PDP: ' + props.data_Party2_PDP + "<br/>";
+                overview += props.data_Party3_Name +': ' + props.data_Party3_SC + "<br/>";
+                overview += props.data_Party4_Name +': ' + props.data_Party4_SC + "<br/>";
+                this._div.innerHTML = overview;
+                //send this data to the bar chart
+                newChart(labels, data);
+                //   
+                //  change text for labels in the box at the top
+                document.getElementById('datainfo').innerHTML = props.NAME_1 + ' State</h4>';
+                document.getElementById('cardnumb1').innerHTML = props.data_Party1_APC;
+                document.getElementById('cardtext1').innerHTML = 'APC';
+                document.getElementById('cardtxt1').innerHTML = props.data_Party1_APC_ASP;
+                document.getElementById('cardnumb2').innerHTML = props.data_Party2_PDP;
+                document.getElementById('cardtext2').innerHTML = 'PDP';
+                document.getElementById('cardtxt2').innerHTML = props.data_Party2_PDP_ASP;
+                document.getElementById('cardnumb3').innerHTML = props.data_Party3_SC;
+                document.getElementById('cardtext3').innerHTML = props.data_Party3_Name;
+                document.getElementById('cardtxt3').innerHTML = props.data_Party3_ASP;
+                document.getElementById('cardnumb4').innerHTML = props.data_Party4_SC;
+                document.getElementById('cardtext4').innerHTML = props.data_Party4_Name;
+                document.getElementById('cardtxt4').innerHTML = props.data_Party4_ASP; //aspirant party 4
+                document.getElementById('percent1').innerHTML= props.perE_per1 +'%';
+                document.getElementById('percent2').innerHTML= props.perE_per2 +'%';
+                document.getElementById('percent3').innerHTML= props.perE_per3 +'%';
+                document.getElementById('percent4').innerHTML= props.perE_per4 +'%';//percentage
+                
+                document.getElementById('banner3').src= props.Party3_logo;//logo image
+                document.getElementById('banner4').src= props.Party4_logo;//logo image
+              
+                document.getElementById('card1').style.display="flex"//display card
+                document.getElementById('card2').style.display="flex"//display card
+                document.getElementById('card3').style.display="flex"//display card
+                document.getElementById('card4').style.display="flex"//display card
+                document.getElementById('InfoText').style.display="none"//display card
+                document.getElementById('party').style.display="block"//display card
+                document.getElementById('E_table').style.display="block"//display card
+               // party
+               
+                //setting img
+                
+                    if (document.getElementById('cardtext1').innerHTML = 'APC'){
+                    //  const img = document.getElementById("banner");
+                    // img.src = "/img/party logos/apclogo.jpg";
+                        document.getElementById("banner1").src="/img/party logos/APC.jpg";
+                    }
+                    if (document.getElementById('cardtext2').innerHTML = 'PDP'){
+                    // const img = document.getElementById("banner");
+                    //  img.src = "/img/party logos/PDP.jpg";
+                        document.getElementById("banner2").src="/img/party logos/PDP.jpg";
+                    }
+
+                if('APC' == props.data_WINNER) {
+                    document.getElementById("cardtxt1").style.color = "#287bff";
+                    document.getElementById('Nominee').innerHTML = props.data_Party1_APC_ASP;
+                    document.getElementById('PartyX').innerHTML = 'APC';
+                    document.getElementById('RunningMate').innerHTML = props.data2_Party1_APC_ASP2;
+                    document.getElementById('Votes').innerHTML = props.data_Party1_APC;
+                    document.getElementById("Winnerimg").src="/img/party logos/APC.jpg";
+                }else{
+                    document.getElementById("cardtxt1").style.color = "red";
+                   
+                }
+                if('PDP' == props.data_WINNER || 'PDP-SupremeCourt' == props.data_WINNER) {
+                    document.getElementById("cardtxt2").style.color = "#287bff";
+                    document.getElementById('Nominee').innerHTML = props.data_Party2_PDP_ASP;
+                    document.getElementById('PartyX').innerHTML = 'PDP';
+                    document.getElementById('RunningMate').innerHTML = props.data2_Party2_PDP_ASP2;
+                    document.getElementById('Votes').innerHTML = props.data_Party2_PDP;
+                    document.getElementById("Winnerimg").src="/img/party logos/PDP.jpg";
+               }else{
+                    document.getElementById("cardtxt2").style.color = "red";
+                }
+                if(props.data_Party3_Name == props.data_WINNER) {
+                    document.getElementById("cardtxt3").style.color = "#287bff";
+                    document.getElementById('Nominee').innerHTML = props.data_Party3_ASP;
+                    document.getElementById('PartyX').innerHTML = props.data_Party3_Name;
+                    document.getElementById('RunningMate').innerHTML = props.data2_Party3_ASP2;
+                    document.getElementById('Votes').innerHTML = props.data_Party3_SC;
+                    document.getElementById("Winnerimg").src=props.Party3_logo;
+                }else{
+                    document.getElementById("cardtxt3").style.color = "red";
+                }
+                if(props.data_Party4_Name== props.data_WINNER) {
+                    document.getElementById("cardtxt4").style.color = "#287bff";
+                    document.getElementById('Nominee').innerHTML = props.data_Party4_ASP;
+                    document.getElementById('PartyX').innerHTML = props.data_Party4_Name;
+                    document.getElementById('RunningMate').innerHTML = props.data2_Part4_ASP2;
+                    document.getElementById('Votes').innerHTML = props.data_Party4_SC;
+                    document.getElementById("Winnerimg").src=props.Party4_logo;
+                }else{
+                    document.getElementById("cardtxt4").style.color = "red";
+                }
+
+             //   let per1= props.data_Party1_APC, per2=props.data_Party2_PDP, per3 = props.data_Party3_SC, per4=props.data_Party4_SC;
+               //    var v1 =per1.replace(/,/g,"");
+                 //   var v2 =per2.replace(/,/g,"");
+                   // var v3 =per3.replace(/,/g,"");
+                  //  var v4 =per4.replace(/,/g,"");
+              ////      let totalE=(v1 + v2 + v3 + v4);
+                 //  document.getElementById('percent1').innerHTML=(((parseInt(v1))/totalE)*100)+'%';
+              //     document.getElementById('percent1').innerHTML=((((totalE)))*1)+'%';
+            }
+        };
+        info.addTo(map);
+
+        //sets the color ramp for the map shape
+        //5 class natural using colorbrewer colors
+        function getColor(b) {
+
+            return b =='APC' ? 'lime' :
+                       b =='APGA' ? 'red' :
+                                b =="PDP" ? '#253494' :
+                                b =="PDP-SupremeCourt" ? '#253494' :
+                                    'grey';
+        }
+        function style_1(feature) {
+            return {
+                weight: 1,
+                opacity: 1,
+                color: 'white',
+            };
+        }
+
+        //sets the intial look of the map using the WINNERS
+            function style(feature) {
+            return {
+                weight: 0.6, opacity: 0.4, color: 'white', fillOpacity: 0.8, fillColor: getColor(feature.properties.data_WINNER)
+            };
+        }
+     
+
+        function highlightFeature(e) {
+            //highlightFeature was entered;
+            var layer = e.target;
+            layer.setStyle({
+                weight: 1.5,
+                color: 'black',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+
+            //data contained in the map feature will be sent to update the bar chart
+            info.update(layer.feature.properties);
+        }
+
+        var geojson;
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            //comment the line below if you don't want the data to reset when the mouse moves away
+            info.update();
+        }
+
+        function onEachFeature(feature, layer) {
+            //get all the data for adding to the scatter plot
+            if (feature.properties) {
+
+                //no null values
+                if (feature.properties.perE_per1 != null) {
+                    scatterData.push({x: feature.properties.perE_per1, y: feature.properties.perE_per2});
+
+                    //get the statename for labeling in the scatterplot
+                    scatterLabels.push(feature.properties.NAME_1);
+
+                } else {
+                    console.log("null");
+                }
+                //force the scatter plot to draw when the page loads
+                window.myScatter.update();
+
+            }
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+        // ... our listeners
+        //   geojson = L.geoJson(PolygonJSON);
+        // defined zoomed to layer
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+        $.getJSON("/map data/Nigeria geojson5.geojson", function (data) {
+            //geojson retrieved
+              geojson = L.geoJson(data, {
+                style: style,
+                onEachFeature: onEachFeature
+              }).addTo(map);
+             });
+     //   function getselvalue(){
+       //    var selvalue1=document.getElementById('consti');
+         //  var displaytxt1=selvalue1.options[selvalue1.selectedIndex].text;
+      //     var selvalue2=document.getElementById('location');
+        ///   var displaytxt2=selvalue2.options[selvalue2.selectedIndex].text;
+       //    document.getElementById("textval").value=displaytxt1;// for textbox or input
+           
+        //   document.getElementById('datainfo23').innerHTML = displaytxt2;// for label
+        //   if (displaytxt1=="Presidential Election"){
+         //   document.getElementById('datainfo23').innerHTML = displaytxt1;// for label
+          
+       //    }
+         //  else if (displaytxt1=="Governorship Election" & displaytxt2=="Whole Country"){
+          //  document.getElementById('datainfo23').innerHTML = displaytxt1;// for label
+        //   
+          // }
+         //  else if (displaytxt1=="Governorship Election" & displaytxt2=="Lagos"){
+          //  document.getElementById('datainfo23').innerHTML = displaytxt1;// for label
+          //  $.getJSON("/map data/Lagos.geojson", function (data) {
+            //geojson retrieved
+          //    geojson = L.geoJson(data, {
+            //    style: style,
+              //  onEachFeature: onEachFeature
+    //          }).addTo(map);
+      //       });
+        //   }
+          
+           
+       //  }
+      
+        //this is where the GeoJSON created in QGIS is loaded into the map
+      //  $.getJSON("/map data/Nigeria geojson5.geojson", function (data) {
+        //    //geojson retrieved
+          //  geojson = L.geoJson(data, {
+            //    style: style,
+              //  onEachFeature: onEachFeature
+    //        }).addTo(map);
+      //  });
+
+        map.attributionControl.addAttribution('INEC Nigeria &copy; <a href="https://www.inecnigeria.org//">Independent National Electoral Commission</a>');
+
+        var legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ['APC', 'PDP', 'APGA','No Election','x'],
+                labels = ['<strong>Governorship Election</strong>'],
+                from, to;
+            var x = 1;
+            var y = 1;
+            for (var i = 0; i < grades.length - 1; i++) {
+                from = grades[i];
+                to = grades[i + 1];
+                y++;
+                //"x" + from + " " + to
+                /*labels.push(
+                    '<i style="background:' + getColor(x,x+1) + '"></i> ' + from + (' to ' + to)
+                    );*/
+                labels.push(
+                    '<i style="background:' + getColor(from) + '"></i> ' + from 
+                );
+            }
+
+            div.innerHTML = labels.join('<br>');
+            return div;
+        };
+        legend.addTo(map);
+
+    </script>
+
+    <script>
+        //toggle menu
+        let toggle = document.querySelector('.toggle');
+        let nav = document.querySelector('.nav');
+        let main = document.querySelector('.main');
+
+        toggle.onclick = function () {
+            nav.classList.toggle('active')
+            main.classList.toggle('active')
+        }
+
+        //hover class in selected list items
+        let list = document.querySelectorAll('.nav li');
+        function activeLink() {
+            list.forEach((item) =>
+                item.classList.remove('hovered'));
+            this.classList.add('hovered');
+        }
+        list.forEach((item) =>
+            item.addEventListener('mouseover', activeLink));
+    </script>
+
+</body>
+
+</html>

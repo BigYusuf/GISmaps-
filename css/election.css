@@ -1,0 +1,141 @@
+/*.f-group {
+    float: left;
+}
+
+.f-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 15px;
+}
+ 
+.f-group select {
+    border: 1px solid #555;
+    height: 40px;
+    width: 300px;
+    padding: 0 15px;
+    margin-right: 20px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.f-group option {
+    font-size: 15px;
+}
+
+:root {
+    --bg-body: #287bff;
+    --bg-main: #fff;
+    --grey: #f5f5f5;
+    --black1: #222;
+    --black2: #999;
+}*/
+
+:root{
+    --dark-body:#141529;
+    --dark-main:#4d4c5a;
+    --dark-second:#79788c;
+    --dark-hover:#323048;
+    --dark-text:#f8fbff;
+    
+    --light-body: #287bff;
+    --light-main:#fff;
+    --light-second:#c3c2c8;
+    --light-hover:#edf0f5;
+    --light-text: #222;
+}
+
+.light {
+    --bg-body:var(--light-body);
+    --bg-main:var(--light-main);
+    --bg-second:var(--light-second);
+    --color-hover:var(--light-hover);
+    --color-txt:var(--light-text);
+}
+.dark{
+    --bg-body:var(--dark-body);
+    --bg-main:var(--dark-main);
+    --bg-second:var(--dark-second);
+    --color-hover:var(--dark-hover);
+    --color-txt:var(--dark-text);
+}
+
+
+
+.f-group {
+    position: relative;
+    width: 350px;
+}
+.f-group select{
+    width: 100%;
+    position:relative;
+    margin: 10px;
+    padding: 16px 30px 16px 80px;
+    border-radius: 50px;
+    font: 400 22px Arial;
+    -webkit-appearance: none;
+    appearance: none;
+    /* this will hide the default icon*/
+    color: var(--bg-body);
+    border: 1px solid #616161;
+    cursor: pointer;
+    background-color: var(--bg-main);
+}
+
+.f-group select::-ms-expand{
+    display: none;
+}
+
+.f-group select:focus{
+    outline: none;
+    box-shadow: 0 0 10px -1px var(--bg-body);
+}
+
+.f-group label {
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    margin-bottom: 8px;
+    font: 600 22px Arial;
+    top: 16px;
+    left: 16px;
+}
+
+.f-group ion-icon {
+    position: absolute;
+    right: 20px;
+    top: 27px;
+    font-size: 23px;
+   color: var(--color-txt);
+}
+.f-group select:focus + ion-icon{
+    color:var(--bg-body);
+}
+
+.Infoboard{
+    position: relative;
+    margin-left: 10px;
+}
+.Infoboard p{
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--color-txt);
+}
+.Infoboard table {
+    display: none;
+}
+.Infoboard table tr td {
+    padding: 12px 10px;
+}
+
+.party{
+    position: absolute;
+    top: 50px;
+    right: 10px;
+   cursor: pointer;
+   display: none;
+}
+.party img{
+    width: 130px;
+    height: 115px;
+}

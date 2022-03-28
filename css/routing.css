@@ -1,0 +1,190 @@
+#map {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+.wrapper{
+    width: 350px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
+}
+.wrapper .title{
+    color: #fff;
+    line-height: 65px;
+    text-align: center;
+    background-color: #333;
+    font-size: 25px;
+    font-weight: 500;
+    border-radius: 10px 10px 0 0;
+}
+.wrapper .box{
+    padding: 20px 40px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.wrapper .box label{
+    display: flex;
+    height: 53px;
+    width: 100%;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 50px;
+    margin: 10px 0;
+    padding-left: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.wrapper .box label .dot{
+    height: 20px;
+    width: 20px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    position: relative;
+}
+.box label .dot::before{
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    transform: translate(-50%,-50%) scale(2);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+#option-1:checked ~ .option-1 .dot::before,
+#option-2:checked ~ .option-2 .dot::before,
+#option-3:checked ~ .option-3 .dot::before{
+    background-color: #333;
+    transform: translate(-50%,-50%) scale(1);
+}
+.wrapper .box label .text{
+    color: #333;
+    font-size: 18px;
+    font-weight: 400;
+    padding-left: 10px;
+    transition: color 0.3s ease;
+}
+#option-1:checked ~ .option-1,
+#option-2:checked ~ .option-2,
+#option-3:checked ~ .option-3{
+    background-color: #333;
+    border-color: #333;
+} 
+
+#option-1:checked ~ .option-1 .text,
+#option-2:checked ~ .option-2 .text,
+#option-3:checked ~ .option-3 .text{
+     color: #fff;
+} 
+.wrapper .box input[type="radio"]{
+    display: none;
+}
+
+
+
+
+.formBlock {
+    max-width: 350px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
+    z-index: 999;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+    border-radius: 5px;
+    width: 100%;
+}
+
+
+.input {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+#form {
+    padding: 0;
+    margin: 0;
+}
+
+.input:nth-child(1) {
+    margin-bottom: 10px;
+}
+
+.leaflet-top .leaflet-control {
+    margin-top: 180px;
+}
+
+.kel {
+    position: absolute;
+    /* top: 18px;*/
+    top: 70px;
+    left: auto;
+    right: 340px;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    z-index: 999;
+}
+
+.kel.active {
+    position: absolute;
+    /* top: 18px;*/
+    top: 70px;
+    right: 15px;
+    left: auto;
+}
+
+.main1 {
+    position: absolute;
+    top: 200px;
+    left: auto;
+    right: 340px;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    z-index: 999;
+}
+
+.main1.active {
+    position: absolute;
+    top: 178px;
+    right: 300px;
+    left: auto;
+}
+
+
+
+/*.leaflet-routing-container .leaflet-bar .leaflet-control .active {
+    display: none;
+}*/
+.leaflet-right.active {
+    display: none;
+}
+
+.leaflet-routing-alternatives-container.active {
+    display: none;
+}
