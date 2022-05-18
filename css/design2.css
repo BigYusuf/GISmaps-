@@ -346,7 +346,8 @@ body {
 }
 
 .cardBox .card .cardName {
-    color: var(--color-hover);
+    color: var(--bg-body);
+    /*color: var(--color-hover);*/
     font-size: 1.1em;
     margin-top: 5px;
 }

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /*--------------------------------Style for info dashboard-------------------------------------*/
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        #map {
+            width: 70%;
+            height: 550px;
+            float: left;
+        }
+
+        #chartDiv {
+            width: 30%;
+            height: 500px;
+            float: left;
+        }
+
+        /*------------------Style for legend-----------------------*/
+        .legend {
+            line-height: 18px;
+            color: #555;
+        }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!--CHART JS-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+
+</head>
+
+<input type="checkbox" id="checkbox">
+
+<header class="header">
+    <h2 class="u-name">SIDE<b>BAR</b>
+        <label for="checkbox">
+            <i class="fa fa-bars" id="navbtn" aria-hidden="true"></i>
+        </label>
+    </h2>
+    <i class="fa fa-user" aria-hidden="true"></i>
+</header>
+<div class="body">
+    <nav class="side-bar">
+        <div class="user-p">
+            <img src="/img/dp.jpg" alt="">
+            <h4>BigYusuf</h4>
+        </div>
+        <ul>
+            <li>
+                <a href="#">
+                    <i class="fa fa-desktop" aria-hidden="true"></i>
+                    <span>Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    <span>Message</span>
+                </a>
+                <span class="tooltip">Message</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <span>Comment</span>
+                </a>
+                <span class="tooltip">Comment</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <span>About</span>
+                </a>
+                <span class="tooltip">About</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                    <span>Setting</span>
+                </a>
+                <span class="tooltip">Setting</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-power-off" aria-hidden="true"></i>
+                    <span>Log Out</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!--  <section class="section-1">
+            <h1>WELCOME</h1>
+            <p>#CodingWithBigYusufff</p>
+        </section>-->                
+    <div id="map"></div>
+    <div id="chartDiv">
+      <!---  <canvas id="barChartCanvas" height="130"></canvas>-->
+        <table id="jsoncontent">
+
+        </table>
+    </div>
+</div>
+
+<!---  <section>
+        <div class="container">
+            <h2>Component</h2>
+            <div class="row">
+                <div class="graphbox">
+                     <div class="box">
+                        <div id="map"></div>
+                    </div>-->
+<!---   <div class="box">
+                                <canvas id="myChart"></canvas>
+                       <table class="table-stripped" id="jsoncontent">
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>-->
+
+<script src="/data/NigeriaStateData.js"></script>
+
+<script>  //leafletjs and chartjs
+
+    //bar chart that updates when the map is interacted with
+    var newChart = function (labels, data) {
+        var dataLength = labels ? labels.length : 0;
+        //console.log
+        //console.log('we\'re in newChart', labels, data);
+        //will select colors to use based on the number of data points
+        var backgroundColors = ['rgba(255,255,153, 0.9)', //confirmed
+            'rgba(127,201,127, 0.9)',  //discharged
+            'rgba(228,26,28, 0.9)'	//death
+        ];
+        var colors = [];
+        for (var i = 0; i < dataLength; i++) {
+            colors.push(backgroundColors[i]);
+        };
+        //console.log('newChart colors', colors);
+        var ctx = document.getElementById("barChartCanvas");
+        var barChartCanvas = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Info',
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: colors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    };// var newChart = function(labels, data) {
+
+
+
+    var map = L.map('map', {
+        zoomControl: true, maxZoom: 28, minZoom: 1
+    }).fitBounds([[6.58213214121, -4.23063744871], [16.6848032876, 13.6705868633]]);
+
+// google strreet
+    var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    googleStreets.addTo(map);
+
+    //satellite,
+    var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    googleSat.addTo(map);
+    //Terrain
+    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    googleTerrain.addTo(map);
+
+    //ESRI LIGHT GRAY
+    var Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        maxZoom: 16
+    });
+    Esri_WorldGrayCanvas.addTo(map);
+    var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
+        subdomains: 'abcd',
+        maxZoom: 19
+    });
+    CartoDB_DarkMatter.addTo(map);
+
+    var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    });
+
+    var Stamen_Watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
+        minZoom: 1,
+        maxZoom: 16,
+        ext: 'jpg'
+    });
+    var statedata = L.geoJSON(PolygonJSON).addTo(map);
+
+    function getColor(c) {
+        return c >= 15000 ? '#800026' :
+            c >= 10000 & c < 15000 ? '#BD0026' :
+                c >= 5000 & c < 10000 ? '#E31A1C' :
+                    c >= 2000 & c < 5000 ? '#FC4E2A' :
+                        c >= 1000 & c < 2000 ? '#FD8D3C' :
+                            c >= 500 & c < 1000 ? '#FEB24C' :
+                                c >= 000 & c < 500 ? '#FED976' :
+                                    '#fff';
+    }
+
+    function style(feature) {
+        return {
+            fillColor: getColor(feature.properties.NigeriaCases_Confirmed),
+            weight: 1,
+            opacity: .7,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+    L.geoJson(PolygonJSON, { style: style }).addTo(map);
+
+    // interation
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+            weight: 5,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+
+        info.update(layer.feature.properties);// update the info dash on the map
+    }
+    var geojson;
+    //when mouse leave
+    function resetHighlight(e) {
+        geojson.resetStyle(e.target);
+        info.update();// update the info dashboard
+
+    }
+
+    // ... our listeners
+    geojson = L.geoJson(PolygonJSON);
+    // defined zoomed to layer
+    function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+    }
+    //seting border frame on mousehover and click to zoom
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
+        });
+    }
+
+    geojson = L.geoJson(PolygonJSON, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
+
+    //showing the map information, instead using the regular popup control
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+
+    // method that we will use to update the control based on feature properties passed
+    info.update = function (props) {
+        if (props) {
+
+            var labels = ['Confirmed Cases', 'Discharged', 'Deaths'];
+            var data = [props.NigeriaCases_Confirmed, props.NigeriaCases_Discharged, props.NigeriaCases_Deaths];
+            //console.log('labels', labels, 'data', data);
+
+            //will add a floating DIV tage over the map
+            var overview = '<h4>Data for: ' + props.NAME_1 + ' State</h4>' + "<br/>";
+            overview += 'Confirmed Cases: ' + props.NigeriaCases_Confirmed + "<br/>";
+            overview += 'Discharged: ' + props.NigeriaCases_Discharged + "<br/>";
+            overview += 'Deaths: ' + props.NigeriaCases_Deaths + "<br/>";
+            // overview += '<canvas id="barChartCanvas" width="10" height="10"></canvas>';
+            this._div.innerHTML = overview;
+            //send this data to the bar chart
+            newChart(labels, data);
+
+        }
+        //   this._div.innerHTML = '<h4>Nigeria Covid-19 Confirmed Case </h4>' +  (props ?
+        //     '<b>' + props.NigeriaCases_States + '</b><br />' + props.NigeriaCases_Confirmed + ' infected people <sup>.</sup>'
+        //   : 'Hover over a state');
+    };
+
+    info.addTo(map);
+    // Legend
+    var legend = L.control({ position: 'bottomright' });
+
+    legend.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = [00, 500, 1000, 2000, 5000, 10000, 15000],
+            labels = ['<strong>Confirmed Cases</strong>'],
+            from, to;
+        var x = 1;
+        var y = 1;
+        for (var i = 0; i < grades.length - 1; i++) {
+            from = grades[i];
+            to = grades[i + 1];
+            y++;
+
+            //console.log("x" + from + " " + to);
+
+            /*labels.push(
+                '<i style="background:' + getColor(x,x+1) + '"></i> ' + from + (' to ' + to)
+                );*/
+
+            labels.push(
+                '<i style="background:' + getColor(from) + '"></i> ' + from + (' to ' + to)
+            );
+        }
+        div.innerHTML = labels.join('<br>');
+        return div;
+
+    };
+
+    legend.addTo(map);
+
+
+    //setting the base control
+    var baseLayers = {
+        "Satellite": googleSat,
+        "Streets": googleStreets,
+        "Terrain": googleTerrain,
+        "DarkGrey": CartoDB_DarkMatter,
+        "Gray": Esri_WorldGrayCanvas,
+    };
+    var OverLays = {
+        "Confirmed Cases": statedata,
+    };
+
+    L.control.layers(baseLayers, OverLays).addTo(map);
+
+
+</script>
+
+</body>
+
+</html>
